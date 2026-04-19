@@ -12,11 +12,9 @@ function Login() {
   const handleLogin = async () => {
     try {
       const res = await API.post("/login", {
-        email: email.trim(),
-        password: password.trim(),
+        email,
+        password,
       });
-
-      console.log(res.data);
 
       const { token, user } = res.data;
       localStorage.setItem("token", token);
@@ -27,33 +25,15 @@ function Login() {
         navigate("/student/dashboard");
       }
     } catch (err) {
-      alert(err.response?.data?.message || "Invalid email or password");
+      alert("Invalid email or password");
     }
   };
 
   return (
-    <div className="login-page">
-      <div className="login-card">
-        <h2>Login</h2>
-
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <button onClick={handleLogin} className="login-btn">
-          Login
-        </button>
-      </div>
+    <div>
+      <input value={email} onChange={(e) => setEmail(e.target.value)} />
+      <input value={password} onChange={(e) => setPassword(e.target.value)} />
+      <button onClick={handleLogin}>Login</button>
     </div>
   );
 }
