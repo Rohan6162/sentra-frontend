@@ -12,8 +12,8 @@ function Login() {
   const handleLogin = async () => {
     try {
       const res = await API.post("/login", {
-        email,
-        password,
+        email: email.trim(),
+        password: password.trim(),
       });
 
       const { token, user } = res.data;
@@ -25,15 +25,43 @@ function Login() {
         navigate("/student/dashboard");
       }
     } catch (err) {
-      alert("Invalid email or password");
+      alert(err.response?.data?.message || "Invalid email or password");
     }
   };
 
   return (
-    <div>
-      <input value={email} onChange={(e) => setEmail(e.target.value)} />
-      <input value={password} onChange={(e) => setPassword(e.target.value)} />
-      <button onClick={handleLogin}>Login</button>
+    <div className="login-page">
+      <div className="login-card">
+        <h2>Login</h2>
+
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <button onClick={handleLogin} className="login-btn">
+          Login
+        </button>
+
+        <p style={{ textAlign: "center" }}>
+          Don’t have an account?
+          <button
+            onClick={() => navigate("/register")}
+            className="register-link"
+          >
+            Register
+          </button>
+        </p>
+      </div>
     </div>
   );
 }
